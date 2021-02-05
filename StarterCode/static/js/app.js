@@ -1,12 +1,61 @@
-// Creating a function for Bar plot 
+//// This is what the page shows on the main page, first thing that shows up
+
+/// The data from the JSON file is arbitrarily named importedData as the argument
+d3.json("static/data/samples.json").then((importedData) => {
+    console.log(importedData.metadata);
+
+    //////creating a variable called name and extract it
+
+    var optionSelect = d3.select("#selDataset");
+    var sampleNames = importedData.names;
+    sampleNames.forEach(element => { 
+        optionSelect.append("option").text(element).property("value", element); 
+    });
+
+    var sampleData = importedData.samples[0];
+    console.log(sampleData);
+
+    buildPlot(sampleData); // calling function from the function buildPlot() defined at the bottom 
+    demographicInfo(sampleData);
+
+    // var wfreq = importedData.metadata.map(d => d.wfreq); ///
+    // console.log(`Washing Freq: ${wfreq}`);
+
+    var sampleValues = importedData.samples.map(x=>x.sample_values);
+    // console.log(sampleValues);
+   
+});
+
+
+// // Creating a function for the event listener 
 function optionChanged(id) {
-    d3.json("static/data/samples.json").then((importedData) => {
+    d3.json("static/data/samples.json").then((importedData) => { //.then is to give the name to this data file
         sampleData=importedData.samples.filter(d=>d.id == id)[0];
-        buildPlot(sampleData);
+        buildPlot(sampleData); // calling the function 
+        demographicInfo(sampleData); // calling the function i created 
         console.log(sampleData);
+
     });
 }
 
+function demographicInfo(id) {
+    d3.json("static/data/samples.json").then((importedData) => {
+    console.log(meta);
+    var meta = importedData.metadata
+    filterID = meta.filter(mt => mt.id == id); //First id will be showing when someone select the id number
+    firstSample = filterID[0];
+    console.log(filterID);
+    console.log(firstSample);
+    //  referencing the sample-metadata in javascript & populate the demographic info in the empty box
+    var readSampleData = d3.select("#sample-metadata");
+    //Object is dictionary
+    // forEach is for Loop in python
+    Object.entries(firstSample).forEach(([key, value])=>{
+        readSampleData.append("p").text(`${key}, ${value}`) // p for paragraph
+
+    });    
+    });
+}
 
 function buildPlot(sampleData){
         // Slice the first 10 objects for plotting. Lecture 15.2 Ex6. Getting only top 10 OTU ID for the plot
@@ -40,7 +89,8 @@ function buildPlot(sampleData){
         Plotly.newPlot("bar", data, layout);
         
 
-        ////// Bubble Chart
+        /////////////////////////////////////////////////////////
+        //////////////////// Bubble Chart////////////////////////
 
         var trace2 = {
             x: sample_values1,  // get the otu id's to the desired form for the plot
@@ -52,7 +102,6 @@ function buildPlot(sampleData){
                 color: ids,
 
             }
-            
         };
         
         // data
@@ -69,34 +118,9 @@ function buildPlot(sampleData){
 
 
 }
+
 /// Use D3 fetch to read the JSON file
-/// The data from the JSON file is arbitrarily named importedData as the argument
-    d3.json("static/data/samples.json").then((importedData) => {
-        console.log(importedData);
 
-        //////creating a variable called name and extract it
-
-        var optionSelect = d3.select("#selDataset");
-        var sampleNames = importedData.names;
-        sampleNames.forEach(element => { 
-            optionSelect.append("option").text(element).property("value", element); 
-        });
-
-        var sampleData = importedData.samples[0];
-        console.log(sampleData);
-
-        buildPlot(sampleData);
-
-        var wfreq = importedData.metadata.map(d => d.wfreq);
-        console.log(`Washing Freq: ${wfreq}`);
-
-        var sampleValues = importedData.samples.map(x=>x.sample_values);
-        // console.log(sampleValues);
-    
-
-
-        
-    });
 // }
 
 
