@@ -118,12 +118,21 @@ function buildPlot(sampleData){
         // Render the plot to the div tag with id "plot"
         Plotly.newPlot("bubble", data, layout);
 
+        
+        /////////////////////////////////////////////////////////
+        //////////////////// Gauge Chart////////////////////////
 
-}
+        // var wfreq = importedData.metadata.map(d => d.wfreq); ///
+        // console.log(`Washing Freq: ${wfreq}`);
 
+        
+        };
+
+
+    
 /// Use D3 fetch to read the JSON file
 
-// }
+
 
 
     // Call updatePlotly() when a change takes place to the DOM/// 
