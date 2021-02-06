@@ -12,14 +12,14 @@ d3.json("static/data/samples.json").then((importedData) => {
         optionSelect.append("option").text(element).property("value", element); 
     });
 
-    var sampleData = importedData.samples[0];
+    var sampleData = importedData.samples[0];  //First value of the array -> 940
     console.log(sampleData);
 
     buildPlot(sampleData); // calling function from the function buildPlot() defined at the bottom 
-    demographicInfo(sampleData);
+    demographicInfo(importedData.names[0]);
 
-    // var wfreq = importedData.metadata.map(d => d.wfreq); ///
-    // console.log(`Washing Freq: ${wfreq}`);
+    var wfreq = importedData.metadata.map(d => d.wfreq); ///
+    console.log(`Washing Freq: ${wfreq}`);
 
     var sampleValues = importedData.samples.map(x=>x.sample_values);
     // console.log(sampleValues);
@@ -32,9 +32,10 @@ function optionChanged(id) {
     d3.json("static/data/samples.json").then((importedData) => { //.then is to give the name to this data file
         sampleData=importedData.samples.filter(d=>d.id == id)[0];
         buildPlot(sampleData); // calling the function 
-        demographicInfo(sampleData); // calling the function i created 
-        console.log(sampleData);
-
+        filterID = importedData.metadata.filter(mt => mt.id == id)[0];
+        demographicInfo(id); // calling the function i created ... user is selecting the id so it display the detail of the id
+        console.log(sampleData);å
+    
     });
 }
 
@@ -48,6 +49,7 @@ function demographicInfo(id) {
     console.log(firstSample);
     //  referencing the sample-metadata in javascript & populate the demographic info in the empty box
     var readSampleData = d3.select("#sample-metadata");
+    readSampleData.html(""); //clearing the list of previous info before displaying the new info
     //Object is dictionary
     // forEach is for Loop in python
     Object.entries(firstSample).forEach(([key, value])=>{
