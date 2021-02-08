@@ -46,6 +46,9 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 * Deploy my app.js to a free static page to my GitHub Page.
 
+## Technologies: 
+* Javascript, HTML, JSON
+
 ## References:
 
 * [Plotly.js documentation](https://plot.ly/javascript/) for plots building.
